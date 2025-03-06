@@ -1,0 +1,24 @@
+[project]
+authors = ["carschandler <92899389+carschandler@users.noreply.github.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "sng_dbscan"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[pypi-dependencies]
+sng_dbscan = { path = ".", editable = true }
+
+[dependencies]
+python = ">=3.13.2,<3.14"
+numpy = ">=2.2.3,<3"
+
+[feature.dev.dependencies]
+ipython = "*"
+debugpy = "*"
+scikit-learn = ">=1.6.1,<2"
+
+[environments]
+dev = ["dev"]
