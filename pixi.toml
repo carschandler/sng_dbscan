@@ -3,7 +3,7 @@ authors = ["carschandler <92899389+carschandler@users.noreply.github.com>"]
 channels = ["conda-forge"]
 description = "Add a short description here"
 name = "sng_dbscan"
-platforms = ["osx-arm64"]
+platforms = ["linux-64", "osx-arm64"]
 version = "0.1.0"
 
 [tasks]

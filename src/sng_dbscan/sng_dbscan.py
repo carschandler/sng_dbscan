@@ -7,34 +7,31 @@ from numpy.typing import NDArray
 class SNG_DBSCAN:
     def __init__(
         self,
-        x: NDArray,
         sampling_rate: float,
         max_dist: float,
         min_points: int,
         rng: np.random.Generator = np.random.default_rng(),
     ):
-        self.graph = Graph(x)
         self.sampling_rate = sampling_rate
         self.max_dist = max_dist
         self.min_points = min_points
         self.rng = rng
 
-    def fit(self):
-        n = len(self.graph.nodes)
+    def fit(self, x: NDArray):
+        graph = Graph(x)
+        n = len(graph.nodes)
         indices = np.arange(n)
         n_sample = int(np.ceil(self.sampling_rate * n))
 
-        for i, node in enumerate(self.graph.nodes):
+        for i, node in enumerate(graph.nodes):
             i_sample = self.rng.choice(indices, n_sample)
-            sample = self.graph.nodes[i_sample]
-            norms = np.abs(node - sample)
+            sample = graph.nodes[i_sample]
+            norms = np.linalg.norm(node - sample, axis=1)
             matching_indices = i_sample[norms <= self.max_dist]
             for j in matching_indices:
-                self.graph.add_edge(i, j)
+                graph.add_edge(i, j)
 
-            min_points_mask = np.vectorize(lambda x: x >= self.min_points)(
-                self.graph.edges
-            )
+            min_points_mask = np.vectorize(lambda x: x >= self.min_points)(graph.edges)
 
 
 class Graph:
