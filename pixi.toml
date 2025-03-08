@@ -14,6 +14,8 @@ sng_dbscan = { path = ".", editable = true }
 [dependencies]
 python = ">=3.13.2,<3.14"
 numpy = ">=2.2.3,<3"
+plotly = ">=6.0.0,<7"
+pandas = ">=2.2.3,<3"
 
 [feature.dev.dependencies]
 ipython = "*"
