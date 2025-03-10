@@ -7,7 +7,7 @@ from sklearn.datasets import make_blobs
 
 from sng_dbscan.sng_dbscan import SNG_DBSCAN
 
-x, y = make_blobs()  # type: ignore
+x, y = make_blobs(n_samples=1000, centers=4, center_box=(-20, 20))  # type: ignore
 
 assert isinstance(x, np.ndarray)
 
@@ -16,7 +16,9 @@ min_pts = 3
 
 n = len(x)
 
-sng = SNG_DBSCAN(sampling_rate=np.log(n) / n, max_dist=epsilon, min_points=min_pts)
+sampling_rate = 20 * np.log(n) / n
+
+sng = SNG_DBSCAN(sampling_rate=sampling_rate, max_dist=epsilon, min_points=min_pts)
 sng_labels = sng.fit(x)
 
 dbscan = DBSCAN(eps=epsilon, min_samples=min_pts)
@@ -38,6 +40,8 @@ df = df.melt(
     var_name="Cluster Type",
 )
 
-px.scatter(df, x="x", y="y", color="Label", facet_row="Cluster Type").write_html(
-    "out.html", include_plotlyjs="cdn"
-)
+fig = px.scatter(df, x="x", y="y", color="Label", facet_col="Cluster Type")
+
+fig.write_html("fig.html", include_plotlyjs="cdn")
+
+fig.write_json("fig.json")
