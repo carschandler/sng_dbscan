@@ -3,6 +3,7 @@ from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
+from sklearn.neighbors import KDTree
 
 
 class SNG_DBSCAN:
@@ -12,14 +13,19 @@ class SNG_DBSCAN:
         max_dist: float,
         min_points: int,
         rng: np.random.Generator = np.random.default_rng(),
+        similarity_measure=lambda x: np.linalg.norm(x, axis=1),
+        kdtree=False,
     ):
         self.sampling_rate = sampling_rate
         self.max_dist = max_dist
         self.min_points = min_points
         self.rng = rng
+        self.similarity_measure = similarity_measure
+        self.kdtree = kdtree
 
     def fit_predict(
-        self, x: NDArray, similarity_measure=lambda x: np.linalg.norm(x, axis=1)
+        self,
+        x: NDArray,
     ):
         graph = Graph(x)
         num_nodes = len(graph.nodes)
@@ -29,8 +35,16 @@ class SNG_DBSCAN:
         for i_node, node in enumerate(graph.nodes):
             i_sample = self.rng.choice(indices, n_sample, replace=False)
             sample = graph.nodes[i_sample]
-            norms = similarity_measure(node - sample, axis=1)
-            indices_in_range = i_sample[norms <= self.max_dist]
+
+            if self.kdtree:
+                tree = KDTree(sample)
+                indices_in_range = i_sample[
+                    tree.query_radius(node.reshape(1, -1), self.max_dist)[0]
+                ]
+            else:
+                norms = self.similarity_measure(node - sample)
+                indices_in_range = i_sample[norms <= self.max_dist]
+
             for i_in_range in indices_in_range:
                 graph.add_edge(i_node, int(i_in_range))
 
