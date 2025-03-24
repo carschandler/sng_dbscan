@@ -18,7 +18,9 @@ class SNG_DBSCAN:
         self.min_points = min_points
         self.rng = rng
 
-    def fit(self, x: NDArray):
+    def fit_predict(
+        self, x: NDArray, similarity_measure=lambda x: np.linalg.norm(x, axis=1)
+    ):
         graph = Graph(x)
         num_nodes = len(graph.nodes)
         indices = np.arange(num_nodes)
@@ -27,7 +29,7 @@ class SNG_DBSCAN:
         for i_node, node in enumerate(graph.nodes):
             i_sample = self.rng.choice(indices, n_sample, replace=False)
             sample = graph.nodes[i_sample]
-            norms = np.linalg.norm(node - sample, axis=1)
+            norms = similarity_measure(node - sample, axis=1)
             indices_in_range = i_sample[norms <= self.max_dist]
             for i_in_range in indices_in_range:
                 graph.add_edge(i_node, int(i_in_range))
