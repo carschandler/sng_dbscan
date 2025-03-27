@@ -1,6 +1,9 @@
 [project]
 authors = [{name = "carschandler", email = "92899389+carschandler@users.noreply.github.com"}]
-dependencies = []
+dependencies = [
+    "numpy>=2.2.4",
+    "scikit-learn>=1.6.1",
+]
 description = "Subsampled neighborhood graph DBSCAN implementation"
 name = "sng_dbscan"
 requires-python = ">= 3.12"

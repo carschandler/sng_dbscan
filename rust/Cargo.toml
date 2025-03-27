@@ -1,0 +1,14 @@
+[package]
+name = "sng_dbscan"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "sng_dbscan"
+crate-type = ["cdylib"]
+
+[dependencies]
+numpy = { version = "0.24.0", features = ["nalgebra"] }
+pyo3 = "0.24.0"
+rand = "0.9.0"

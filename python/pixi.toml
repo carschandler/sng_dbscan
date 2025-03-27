@@ -18,6 +18,7 @@ plotly = ">=6.0.0,<7"
 pandas = ">=2.2.3,<3"
 python-kaleido = ">=0.2.1,<0.3"
 ipykernel = ">=6.29.5,<7"
+maturin = ">=1.8.3,<2"
 
 [feature.dev.dependencies]
 ipython = "*"
