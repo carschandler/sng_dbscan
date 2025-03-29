@@ -15,7 +15,7 @@ struct SNG_DBSCAN {
 impl SNG_DBSCAN {
     fn fit_predict(&self, x: ArrayViewD<f64>) -> Array1<i32> {
         let mut graph = Graph::new(x);
-        let num_nodes = graph.nodes.len();
+        let num_nodes = graph.nodes.shape()[0];
         let indices: Vec<usize> = (0usize..num_nodes).collect();
         let n_sample = self.sampling_rate.ceil() as usize;
 
@@ -142,7 +142,6 @@ impl SNG_DBSCAN {
 
 #[pymodule]
 fn sng_dbscan(m: &Bound<'_, PyModule>) -> PyResult<()> {
-    // m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
     m.add_class::<SNG_DBSCAN>()?;
     Ok(())
 }

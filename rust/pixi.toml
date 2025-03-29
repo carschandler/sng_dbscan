@@ -1,0 +1,17 @@
+[project]
+authors = ["carschandler <92899389+carschandler@users.noreply.github.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "rust"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.2,<3.14"
+ipython = ">=9.0.2,<10"
+maturin = ">=1.8.3,<2"
+numpy = ">=2.2.4,<3"
+pip = ">=25.0.1,<26"
+scikit-learn = ">=1.6.1,<2"

@@ -1,0 +1,3 @@
+rust/.*
+rust/Cargo.lock
+rust/pixi.lock
