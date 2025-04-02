@@ -30,12 +30,14 @@ impl SNG_DBSCAN {
                 .choose_multiple(&mut rng, n_sample);
             let sample = graph.nodes.select(Axis(0), &i_sample[..]);
 
-            let mut norms = &node - &sample.view();
-            norms = norms.map_axis(Axis(0), |x| x.norm());
+            let norm_l2 = (&node - &sample.view())
+                .mapv(|x| x.powi(2))
+                .sum_axis(Axis(1))
+                .mapv(f64::sqrt);
 
             let indices_in_range: Vec<usize> = i_sample
                 .iter()
-                .zip(norms)
+                .zip(norm_l2)
                 .filter(|(_, norm)| *norm < self.max_dist)
                 .map(|(&i, _)| i)
                 .collect();

@@ -16,3 +16,9 @@ dependencies = [
 ]
 [tool.maturin]
 features = ["pyo3/extension-module"]
+
+[dependency-groups]
+dev = [
+    "ipython>=8.12.3",
+    "scikit-learn>=1.3.2",
+]

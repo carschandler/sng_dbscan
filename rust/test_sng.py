@@ -1,7 +1,9 @@
+import timeit
+
 import numpy as np
 from sklearn.cluster import DBSCAN
 from sklearn.datasets import make_blobs
-from sng_dbscan import SNG_DBSCAN
+from sng_dbscan.sng_dbscan import SNG_DBSCAN
 
 n = 1000
 
@@ -15,7 +17,11 @@ min_pts = 3
 sampling_rate = 20 * np.log(n) / n
 
 sng = SNG_DBSCAN(sampling_rate=sampling_rate, max_dist=epsilon, min_points=min_pts)
-sng_labels = sng.fit_predict(x)
+
+print(timeit.timeit(lambda: sng.fit_predict(x), number=100))
+# sng.fit_predict(x)
 
 dbscan = DBSCAN(eps=epsilon, min_samples=min_pts)
-dbscan_labels = dbscan.fit_predict(x)
+
+print(timeit.timeit(lambda: dbscan.fit_predict(x), number=100))
+# dbscan_labels = dbscan.fit_predict(x)
